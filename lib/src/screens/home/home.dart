@@ -119,8 +119,9 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
-  String _chosenCrime;
+ 
 //collect crimeinfo dialog
+ String _chosenCrime;
   Future addMarker() async {
     await showDialog(
         context: context,
