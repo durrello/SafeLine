@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 List<PageModel> pages = [
   PageModel(
     icon: Icons.place,
-    title: 'Travel the world',
-    subtitle: "Keep track of all the countries you've visited",
+    title: 'Watch your neighborhood',
+    subtitle: "Keep track of all the incidents happening around",
     img: 'assets/images/logoWhite.png',
   ),
   PageModel(
     icon: Icons.stars,
-    title: 'Leaderboard',
+    title: 'Report Suspicious activity',
     subtitle:
-        "Challege your friends and discover the most visited countries in the world",
+        "Robbery, Rape, Kidnapping, Missing person, Stolen items Muder,",
     img: 'assets/images/logoRed.png',
   ),
   PageModel(
     icon: Icons.favorite,
-    title: 'New Destinations',
+    title: 'Report Incidents',
     subtitle:
-        "Recommended countries and trips suggest according on your preferences",
+        "With the click of a button let others know what is happening around you",
     img: 'assets/images/logoRed.png',
   ),
 ];

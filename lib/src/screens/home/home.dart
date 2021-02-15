@@ -6,7 +6,7 @@ import 'package:geocoder/geocoder.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
-import 'package:random_color/random_color.dart';
+// import 'package:random_color/random_color.dart';
 import 'package:share/share.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/about/about.dart';
@@ -25,7 +25,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  RandomColor _randomColor = RandomColor();
+  // RandomColor _randomColor = RandomColor();
   int crimeType = 1;
   //for bottom navigation
   // int _currentIndex = 0;
@@ -86,6 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final summaryController = TextEditingController();
   final crimeTypeController = TextEditingController();
 
+  DateTime crimeDateTime = DateTime.now();
+
   collectCrimeInfo() async {
     final Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.bestForNavigation,
@@ -100,11 +102,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Firestore.instance.collection('markers').add({
       'coords': new GeoPoint(position.latitude, position.longitude),
       'reporter': userEmail,
-      // 'type': crimeTypeController.text,
       // 'dressing': criminalDressController.text,
       'summary': summaryController.text,
       'incident': _chosenCrime.toString(),
       'location': first.addressLine.toString(),
+      'date': crimeDateTime.toIso8601String(),
     }).then((value) => LatLng(position.latitude, position.longitude));
     return position;
   }
@@ -119,9 +121,8 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
- 
 //collect crimeinfo dialog
- String _chosenCrime;
+  String _chosenCrime;
   Future addMarker() async {
     await showDialog(
         context: context,
@@ -245,8 +246,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) => Container(
                 child: IconButton(
                   icon: Icon(Icons.location_on),
-                  color: _randomColor.randomColor(
-                      colorBrightness: ColorBrightness.dark),
+                  color: primaryColor,
                   iconSize: 45,
                   onPressed: () {
                     return showDialog<void>(
@@ -289,6 +289,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         subtitle: Text(snapshot.data
                                                 .documents[i]['incident'] ??
                                             'Not available'),
+                                            // trailing: Text(snapshot.data
+                                            //     .documents[i]['date'].toString() ??
+                                            // 'Not available'),
                                       ),
                                       ListTile(
                                         title: Text('Location: '),
@@ -396,10 +399,12 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           FlatButton(
             onPressed: myLocation,
+            // onPressed: () => {print(crimeDateTime)},
             child: Container(
               child: Row(children: [
                 IconButton(
                   onPressed: myLocation,
+                  // onPressed: () => {print(crimeDateTime)},
                   icon: Icon(
                     Icons.navigation,
                     color: white,

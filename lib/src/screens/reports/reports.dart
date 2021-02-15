@@ -31,8 +31,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
     }
   }
 
+  List<bool> isSelected;
   @override
   void initState() {
+    isSelected = [true, false];
     super.initState();
 
     //get current user
@@ -48,7 +50,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
   //function to get reports
   _getReports() async {
     // Query q = _firestore.collection('markers');
-    Query q = _firestore.collection('markers').orderBy('location').limit(10);
+    Query q = _firestore
+        .collection('markers')
+        .orderBy('date', descending: true)
+        .limit(10);
 
     setState(() {
       _loadinMarkers = true;
@@ -60,6 +65,26 @@ class _ReportsScreenState extends State<ReportsScreen> {
     });
   }
 
+  _getReportsNearMe() async {
+    // Query q = _firestore.collection('markers');
+    Query q = _firestore
+        .collection('markers')
+        .orderBy('location', descending: true)
+        .limit(10);
+
+    setState(() {
+      _loadinMarkers = true;
+    });
+    QuerySnapshot querySnapshot = await q.getDocuments();
+    _markers = querySnapshot.documents;
+    setState(() {
+      _loadinMarkers = false;
+    });
+  }
+
+  String getreportText = 'Near me';
+
+  toggleReport() {}
 //end login
   @override
   Widget build(BuildContext context) {
@@ -97,7 +122,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                           leading: Image.asset('assets/images/logoRed.png'),
                           title: Row(
                             children: [
-                              Text('${_markers[index].data['type']}'),
+                              Text('${_markers[index].data['incident']}'),
                               Text(' in '),
                               Flexible(
                                   child: Text(
@@ -106,9 +131,59 @@ class _ReportsScreenState extends State<ReportsScreen> {
                             ],
                           ),
                           subtitle: Text('${_markers[index].data['summary']}'),
+                          // subtitle: Text("${_markers[index].data['date'].toDate()}"),
                         );
                       }),
             ),
+      floatingActionButton: Container(
+        margin: EdgeInsets.fromLTRB(20, 0, 0, 15),
+        child: ToggleButtons(
+          borderColor: primaryColor,
+          fillColor: primaryColor,
+          borderWidth: 2,
+          selectedBorderColor: primaryColor,
+          selectedColor: Colors.white,
+          borderRadius: BorderRadius.circular(0),
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Near me',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'Latest',
+                style: TextStyle(fontSize: 16),
+              ),
+            ),
+          ],
+          onPressed: (int index) {
+            setState(() {
+              for (int i = 0; i < isSelected.length; i++) {
+                // isSelected[i] = i == index;
+                if (i == index) {
+                  isSelected[i] = true;
+                  _getReports();
+                } else {
+                  isSelected[i] = false;
+                  _getReportsNearMe();
+                }
+              }
+            });
+          },
+          isSelected: isSelected,
+        ),
+        // child: FloatingActionButton.extended(
+        //   label: Text(getreportText),
+        //   icon: Icon(Icons.near_me),
+        //   backgroundColor: primaryColor,
+        //   onPressed: toggleReport(),
+        // ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );
   }
 }
