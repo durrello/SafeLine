@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "88640149780",
+    "project_id": "stay-safe-1805f",
+    "storage_bucket": "stay-safe-1805f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88640149780:android:bc67701c1831c749c7ca01",
+        "android_client_info": {
+          "package_name": "com.example.stay_safe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88640149780-gt2vgvd3d5ds6ut4u5vq06ft41b0mfkp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCSTyFaRxTFFNJDKQCnitovGeukayNMv3c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88640149780-gt2vgvd3d5ds6ut4u5vq06ft41b0mfkp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
