@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
@@ -66,6 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
+    //run t go to user location after 3 seconds
+    new Future.delayed(const Duration(seconds: 3), () async {
+      await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.best,
+      ).then((value) => {
+            controller.move(LatLng(value.latitude, value.longitude), 17.0),
+            print(value)
+          });
+    });
     //get current user
     getCurrentUser();
   }
@@ -88,6 +101,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   DateTime crimeDateTime = DateTime.now();
 
+  //collect crime info
+
+  //get photo
+  final picker = ImagePicker();
+  File _image;
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        String error = "The image is empty";
+      }
+    });
+  }
+
+  String url;
   collectCrimeInfo() async {
     final Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.bestForNavigation,
@@ -98,6 +130,23 @@ class _HomeScreenState extends State<HomeScreen> {
         await Geocoder.local.findAddressesFromCoordinates(coordinates);
     var first = addresses.first;
     print("${first.featureName} : ${first.addressLine}");
+
+    //  //StorageTasksnapshot
+    //   firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref().child("blogImage").child(_image.path);
+    //   firebase_storage.UploadTask task = ref.putFile(_image);
+    //   final storageTaskSnapshot = await task;
+    //   String downloadurl = await storageTaskSnapshot.ref.getDownloadURL();
+    //   url= downloadurl;
+    //   //TaskSnapshot
+    //   CollectionReference blogs = FirebaseFirestore.instance.collection('blogs');
+    //   CrudMethods crudMethods = new CrudMethods();
+
+    //      Map<String, String> blogData ={
+    //       'imgUrl': url,
+    //     };
+
+    //      crudMethods.addData( blogData);
+
 
     Firestore.instance.collection('markers').add({
       'coords': new GeoPoint(position.latitude, position.longitude),
@@ -145,73 +194,104 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             children: [
               SimpleDialogOption(
-                child: Column(
-                  children: [
-                    SizedBox(height: 5),
-                    Text('Reporter: $userEmail'),
-                    SizedBox(height: 5),
-                    DropdownButton<String>(
-                      focusColor: Colors.white,
-                      value: _chosenCrime,
-                      //elevation: 5,
-                      style: TextStyle(color: Colors.white),
-                      iconEnabledColor: Colors.black,
-                      items: <String>[
-                        'Robbery',
-                        'Rape',
-                        'Kidnapping',
-                        'Car Theft',
-                        'Assualt',
-                      ].map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(
-                            value,
-                            style: TextStyle(color: Colors.black),
-                          ),
-                        );
-                      }).toList(),
-                      hint: Text(
-                        'Crime Type' ?? _chosenCrime,
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500),
+                child: ListView(children: [
+                  Column(
+                    children: [
+                      SizedBox(height: 5),
+                      Text('Reporter: $userEmail'),
+                      SizedBox(height: 5),
+                      DropdownButton<String>(
+                        focusColor: Colors.white,
+                        value: _chosenCrime,
+                        //elevation: 5,
+                        style: TextStyle(color: Colors.white),
+                        iconEnabledColor: Colors.black,
+                        items: <String>[
+                          'Robbery',
+                          'Rape',
+                          'Kidnapping',
+                          'Car Theft',
+                          'Assualt',
+                        ].map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              style: TextStyle(color: Colors.black),
+                            ),
+                          );
+                        }).toList(),
+                        hint: Text(
+                          'Crime Type' ?? _chosenCrime,
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500),
+                        ),
+                        onChanged: (String value) {
+                          setState(() {
+                            _chosenCrime = value;
+                          });
+                        },
                       ),
-                      onChanged: (String value) {
-                        setState(() {
-                          _chosenCrime = value;
-                        });
-                      },
-                    ),
-                    SizedBox(height: 5),
-                    TextField(
-                      controller: criminalDressController,
-                      decoration: InputDecoration(
-                        // border: OutlineInputBorder(),
-                        labelText: 'How is the criminal dressed',
+                      SizedBox(height: 5),
+                      TextField(
+                        controller: criminalDressController,
+                        decoration: InputDecoration(
+                          // border: OutlineInputBorder(),
+                          labelText: 'How is the criminal dressed',
+                        ),
                       ),
-                    ),
-                    TextField(
-                      controller: summaryController,
-                      // obscureText: true,
-                      decoration: InputDecoration(
-                        // border: OutlineInputBorder(),
-                        labelText: 'Brief detail',
+                      TextField(
+                        controller: summaryController,
+                        // obscureText: true,
+                        decoration: InputDecoration(
+                          // border: OutlineInputBorder(),
+                          labelText: 'Brief detail',
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Text('Upload photo(s)'),
-                    WelcomeButton(
-                      title: 'SEND',
-                      color: primaryColor,
-                      onPressed: () {
-                        collectCrimeInfo();
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ],
-                ),
+                      SizedBox(height: 5),
+                      Text('Upload photo(s)'),
+                      GestureDetector(
+                        onTap: () {
+                          getImage();
+                        },
+                        child: _image != null
+                            ? Container(
+                                height: 150,
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: Image.file(
+                                    _image,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                            : Container(
+                                margin: EdgeInsets.symmetric(horizontal: 16),
+                                decoration: BoxDecoration(color: Colors.white),
+                                height: 150,
+                                width: MediaQuery.of(context).size.width,
+                                child: Icon(Icons.add_a_photo,
+                                    color: Colors.black),
+                              ),
+                      ),
+                      SizedBox(
+                        height: 8.0,
+                      ),
+                      WelcomeButton(
+                        title: 'SEND',
+                        color: primaryColor,
+                        onPressed: () {
+                          collectCrimeInfo();
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  ),
+                ]),
               ),
             ],
           );
@@ -289,9 +369,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         subtitle: Text(snapshot.data
                                                 .documents[i]['incident'] ??
                                             'Not available'),
-                                            // trailing: Text(snapshot.data
-                                            //     .documents[i]['date'].toString() ??
-                                            // 'Not available'),
+                                        // trailing: Text(snapshot.data
+                                        //     .documents[i]['date'].toString() ??
+                                        // 'Not available'),
                                       ),
                                       ListTile(
                                         title: Text('Location: '),

@@ -12,14 +12,14 @@ List<PageModel> pages = [
     title: 'Report Suspicious activity',
     subtitle:
         "Robbery, Rape, Kidnapping, Missing person, Stolen items Muder,",
-    img: 'assets/images/logoRed.png',
+    img: 'assets/images/logoWhite.png',
   ),
   PageModel(
     icon: Icons.favorite,
     title: 'Report Incidents',
     subtitle:
         "With the click of a button let others know what is happening around you",
-    img: 'assets/images/logoRed.png',
+    img: 'assets/images/logoWhite.png',
   ),
 ];
 

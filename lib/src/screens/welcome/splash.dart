@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/welcome/onboarding_screen.dart';
-
 
 //imported screens
 
@@ -12,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class Splash extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -48,15 +47,16 @@ class Splash extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-          child: Scaffold(
+      child: Scaffold(
+        backgroundColor: primaryColor,
         body: Center(
-         child: Column(
-           mainAxisAlignment: MainAxisAlignment.center,
-           children: [
-             Image.asset('assets/images/logoRed.png'),
-             Text('Stay Safe')
-           ],
-         ), 
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset('assets/images/logoRed.png'),
+              Text('Stay Safe')
+            ],
+          ),
         ),
       ),
     );

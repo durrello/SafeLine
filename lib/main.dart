@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:stay_safe/src/screens/welcome/onboarding_screen.dart';
-
 import 'src/screens/about/about.dart';
 import 'src/screens/auth/login_screen.dart';
 import 'src/screens/auth/registration_screen.dart';
@@ -10,8 +8,10 @@ import 'src/screens/criminals/criminal.dart';
 import 'src/screens/home/home.dart';
 import 'src/screens/home/map.dart';
 import 'src/screens/rate_app/rate.dart';
+import 'src/screens/reports/report_details.dart';
 import 'src/screens/reports/reports.dart';
 import 'src/screens/settings/settings.dart';
+import 'src/screens/welcome/onboarding_screen.dart';
 import 'src/screens/welcome/splash.dart';
 import 'src/screens/welcome/welcome_screen.dart';
 
@@ -26,7 +26,7 @@ class CrimeLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: HomeScreen.id,
+      initialRoute: SplashScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         OnboardingScreen.id: (context) => OnboardingScreen(),
@@ -34,6 +34,7 @@ class CrimeLine extends StatelessWidget {
         HomeScreen.id: (context) => HomeScreen(),
         MapScreen.id: (context) => MapScreen(),
         ReportsScreen.id: (context) => ReportsScreen(),
+        ReportDetailsScreen.id: (context) => ReportDetailsScreen(),
         CriminalScreen.id: (context) => CriminalScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
