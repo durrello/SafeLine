@@ -9,7 +9,7 @@ List<PageModel> pages = [
   ),
   PageModel(
     icon: Icons.stars,
-    title: 'Report Suspicious activity',
+    title: 'Suspicious activity?',
     subtitle:
         "Robbery, Rape, Kidnapping, Missing person, Stolen items Muder,",
     img: 'assets/images/logoWhite.png',

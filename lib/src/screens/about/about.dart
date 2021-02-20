@@ -16,6 +16,7 @@ class AboutScreen extends StatelessWidget {
         leading: null,
         // actions: [Icon(Icons.notifications)],
       ),
+      backgroundColor: aboutColor,
       body: Center(
         child: Container(
           color: aboutColor,

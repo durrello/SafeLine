@@ -121,23 +121,16 @@ class _ReportsScreenState extends State<ReportsScreen> {
                       itemBuilder: (BuildContext ctx, int index) {
                         return GestureDetector(
                           onTap: () {
-                            Navigator.pushNamed(context, ReportDetailsScreen.id);
+                            Navigator.pushNamed(
+                                context, ReportDetailsScreen.id);
                           },
                           child: ListTile(
                             leading: Image.asset('assets/images/logoRed.png'),
-                            title: Row(
-                              children: [
-                                Text('${_markers[index].data['incident']}'),
-                                Text(' in '),
-                                Flexible(
-                                    child: Text(
-                                        '${_markers[index].data['location']}'))
-                                // Text('${_markers[index].data['place']}')
-                              ],
-                            ),
+                            title: Text('${_markers[index].data['incident']}'),
                             subtitle:
-                                Text('${_markers[index].data['summary']}'),
-                            // subtitle: Text("${_markers[index].data['date'].toDate()}"),
+                                Text('${_markers[index].data['location']}'),
+                            // trailing: ,
+                            // trailing: Text("${_markers[index].data['date'].toDate().toString()}"),
                           ),
                         );
                       }),
@@ -183,12 +176,6 @@ class _ReportsScreenState extends State<ReportsScreen> {
           },
           isSelected: isSelected,
         ),
-        // child: FloatingActionButton.extended(
-        //   label: Text(getreportText),
-        //   icon: Icon(Icons.near_me),
-        //   backgroundColor: primaryColor,
-        //   onPressed: toggleReport(),
-        // ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
     );

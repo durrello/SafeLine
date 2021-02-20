@@ -54,7 +54,7 @@ class Splash extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/images/logoRed.png'),
-              Text('Stay Safe')
+              // Text('Stay Safe')
             ],
           ),
         ),

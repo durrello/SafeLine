@@ -1,12 +1,9 @@
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
 import 'package:geocoder/geocoder.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
@@ -104,22 +101,22 @@ class _HomeScreenState extends State<HomeScreen> {
   //collect crime info
 
   //get photo
-  final picker = ImagePicker();
-  File _image;
+  // final picker = ImagePicker();
+  // // File _image;
 
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+  // Future getImage() async {
+  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
-    setState(() {
-      if (pickedFile != null) {
-        _image = File(pickedFile.path);
-      } else {
-        String error = "The image is empty";
-      }
-    });
-  }
+  //   setState(() {
+  //     if (pickedFile != null) {
+  //       _image = File(pickedFile.path);
+  //     } else {
+  //       String error = "The image is empty";
+  //     }
+  //   });
+  // }
 
-  String url;
+  // String url;
   collectCrimeInfo() async {
     final Position position = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.bestForNavigation,
@@ -147,13 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
     //      crudMethods.addData( blogData);
 
-
     Firestore.instance.collection('markers').add({
       'coords': new GeoPoint(position.latitude, position.longitude),
       'reporter': userEmail,
-      // 'dressing': criminalDressController.text,
+      'incident': crimeTypeController.text,
       'summary': summaryController.text,
-      'incident': _chosenCrime.toString(),
+      // 'incident': _chosenCrime.toString(),
       'location': first.addressLine.toString(),
       'date': crimeDateTime.toIso8601String(),
     }).then((value) => LatLng(position.latitude, position.longitude));
@@ -171,7 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
 //collect crimeinfo dialog
-  String _chosenCrime;
+  // String _chosenCrime;
   Future addMarker() async {
     await showDialog(
         context: context,
@@ -194,54 +190,57 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             children: [
               SimpleDialogOption(
-                child: ListView(children: [
-                  Column(
+                child: Expanded(
+                  child: Column(
                     children: [
                       SizedBox(height: 5),
                       Text('Reporter: $userEmail'),
                       SizedBox(height: 5),
-                      DropdownButton<String>(
-                        focusColor: Colors.white,
-                        value: _chosenCrime,
-                        //elevation: 5,
-                        style: TextStyle(color: Colors.white),
-                        iconEnabledColor: Colors.black,
-                        items: <String>[
-                          'Robbery',
-                          'Rape',
-                          'Kidnapping',
-                          'Car Theft',
-                          'Assualt',
-                        ].map<DropdownMenuItem<String>>((String value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: Colors.black),
-                            ),
-                          );
-                        }).toList(),
-                        hint: Text(
-                          'Crime Type' ?? _chosenCrime,
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        onChanged: (String value) {
-                          setState(() {
-                            _chosenCrime = value;
-                          });
-                        },
-                      ),
-                      SizedBox(height: 5),
+                      // DropdownButton<String>(
+                      //   focusColor: Colors.white,
+                      //   value: _chosenCrime,
+                      //   //elevation: 5,
+                      //   style: TextStyle(color: Colors.white),
+                      //   iconEnabledColor: Colors.black,
+                      //   items: <String>[
+                      //     'Robbery',
+                      //     'Rape',
+                      //     'Kidnapping',
+                      //     'Car Theft',
+                      //     'Assualt',
+                      //   ].map<DropdownMenuItem<String>>((String value) {
+                      //     return DropdownMenuItem<String>(
+                      //       value: value,
+                      //       child: Text(
+                      //         value,
+                      //         style: TextStyle(color: Colors.black),
+                      //       ),
+                      //     );
+                      //   }).toList(),
+                      //   hint: Text(
+                      //     'Crime Type' ?? _chosenCrime,
+                      //     style: TextStyle(
+                      //         color: Colors.black,
+                      //         fontSize: 14,
+                      //         fontWeight: FontWeight.w500),
+                      //   ),
+                      //   onChanged: (String value) {
+                      //     setState(() {
+                      //       _chosenCrime = value;
+                      //     });
+                      //   },
+                      // ),
+
                       TextField(
-                        controller: criminalDressController,
+                        controller: crimeTypeController,
+                        // obscureText: true,
                         decoration: InputDecoration(
                           // border: OutlineInputBorder(),
-                          labelText: 'How is the criminal dressed',
+                          labelText: 'Incident type:',
                         ),
                       ),
+                      SizedBox(height: 5),
+                      
                       TextField(
                         controller: summaryController,
                         // obscureText: true,
@@ -251,36 +250,36 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(height: 5),
-                      Text('Upload photo(s)'),
-                      GestureDetector(
-                        onTap: () {
-                          getImage();
-                        },
-                        child: _image != null
-                            ? Container(
-                                height: 150,
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 16),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(6),
-                                  child: Image.file(
-                                    _image,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              )
-                            : Container(
-                                margin: EdgeInsets.symmetric(horizontal: 16),
-                                decoration: BoxDecoration(color: Colors.white),
-                                height: 150,
-                                width: MediaQuery.of(context).size.width,
-                                child: Icon(Icons.add_a_photo,
-                                    color: Colors.black),
-                              ),
-                      ),
-                      SizedBox(
-                        height: 8.0,
-                      ),
+                      // Text('Upload photo(s)'),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     getImage();
+                      //   },
+                      //   child: _image != null
+                      //       ? Container(
+                      //           height: 150,
+                      //           width: MediaQuery.of(context).size.width,
+                      //           margin: EdgeInsets.symmetric(horizontal: 16),
+                      //           child: ClipRRect(
+                      //             borderRadius: BorderRadius.circular(6),
+                      //             child: Image.file(
+                      //               _image,
+                      //               fit: BoxFit.cover,
+                      //             ),
+                      //           ),
+                      //         )
+                      //       : Container(
+                      //           margin: EdgeInsets.symmetric(horizontal: 16),
+                      //           decoration: BoxDecoration(color: Colors.white),
+                      //           height: 150,
+                      //           width: MediaQuery.of(context).size.width,
+                      //           child: Icon(Icons.add_a_photo,
+                      //               color: Colors.black),
+                      //         ),
+                      // ),
+                      // SizedBox(
+                      //   height: 8.0,
+                      // ),
                       WelcomeButton(
                         title: 'SEND',
                         color: primaryColor,
@@ -291,7 +290,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
-                ]),
+                ),
               ),
             ],
           );
