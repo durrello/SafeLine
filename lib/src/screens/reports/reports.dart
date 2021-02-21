@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/home/home.dart';
-import 'package:stay_safe/src/screens/reports/report_details.dart';
 
 class ReportsScreen extends StatefulWidget {
   static String id = 'reports_screen';
@@ -119,20 +118,21 @@ class _ReportsScreenState extends State<ReportsScreen> {
                   : ListView.builder(
                       itemCount: _markers.length,
                       itemBuilder: (BuildContext ctx, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ReportDetailsScreen.id);
-                          },
-                          child: ListTile(
-                            leading: Image.asset('assets/images/logoRed.png'),
-                            title: Text('${_markers[index].data['incident']}'),
-                            subtitle:
-                                Text('${_markers[index].data['location']}'),
-                            // trailing: ,
-                            // trailing: Text("${_markers[index].data['date'].toDate().toString()}"),
-                          ),
+                        return
+                            // GestureDetector(
+                            // onTap: () {
+                            //   Navigator.pushNamed(
+                            //       context, ReportDetailsScreen.id);
+                            // },
+                            // child:
+                            ListTile(
+                          leading: Image.asset('assets/images/logoRed.png'),
+                          title: Text('${_markers[index].data['incident']}'),
+                          subtitle: Text('${_markers[index].data['location']}'),
+                          // trailing: ,
+                          // trailing: Text("${_markers[index].data['date'].toDate().toString()}"),
                         );
+                        // );
                       }),
             ),
       floatingActionButton: Container(

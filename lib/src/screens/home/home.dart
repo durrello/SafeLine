@@ -1,22 +1,19 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/plugin_api.dart';
-import 'package:geocoder/geocoder.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
-// import 'package:random_color/random_color.dart';
 import 'package:share/share.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/about/about.dart';
 import 'package:stay_safe/src/screens/chat/chat_screen.dart';
+import 'package:stay_safe/src/screens/home/report_incident.dart';
 import 'package:stay_safe/src/screens/rate_app/rate.dart';
 import 'package:stay_safe/src/screens/reports/reports.dart';
 import 'package:stay_safe/src/screens/settings/settings.dart';
 import 'package:stay_safe/src/widgets/drawer_option.dart';
-import 'package:stay_safe/src/widgets/wlc_button.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -26,8 +23,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // RandomColor _randomColor = RandomColor();
-  int crimeType = 1;
   //for bottom navigation
   // int _currentIndex = 0;
   // final List<Widget> _children = [
@@ -40,8 +35,6 @@ class _HomeScreenState extends State<HomeScreen> {
   //     _currentIndex = index;
   //   });
   // }
-
-  String setLocationText = 'Click to get location';
 
 //loggin user in
   String userEmail = '';
@@ -90,72 +83,6 @@ class _HomeScreenState extends State<HomeScreen> {
 //get current location
   MapController controller = MapController();
 
-  //get crime information and send to firebase
-  final locationController = TextEditingController();
-  final criminalDressController = TextEditingController();
-  final summaryController = TextEditingController();
-  final crimeTypeController = TextEditingController();
-
-  DateTime crimeDateTime = DateTime.now();
-
-  //collect crime info
-
-  //get photo
-  // final picker = ImagePicker();
-  // // File _image;
-
-  // Future getImage() async {
-  //   final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = File(pickedFile.path);
-  //     } else {
-  //       String error = "The image is empty";
-  //     }
-  //   });
-  // }
-
-  // String url;
-  collectCrimeInfo() async {
-    final Position position = await Geolocator.getCurrentPosition(
-      desiredAccuracy: LocationAccuracy.bestForNavigation,
-    );
-
-    final coordinates = new Coordinates(position.latitude, position.longitude);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
-    var first = addresses.first;
-    print("${first.featureName} : ${first.addressLine}");
-
-    //  //StorageTasksnapshot
-    //   firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref().child("blogImage").child(_image.path);
-    //   firebase_storage.UploadTask task = ref.putFile(_image);
-    //   final storageTaskSnapshot = await task;
-    //   String downloadurl = await storageTaskSnapshot.ref.getDownloadURL();
-    //   url= downloadurl;
-    //   //TaskSnapshot
-    //   CollectionReference blogs = FirebaseFirestore.instance.collection('blogs');
-    //   CrudMethods crudMethods = new CrudMethods();
-
-    //      Map<String, String> blogData ={
-    //       'imgUrl': url,
-    //     };
-
-    //      crudMethods.addData( blogData);
-
-    Firestore.instance.collection('markers').add({
-      'coords': new GeoPoint(position.latitude, position.longitude),
-      'reporter': userEmail,
-      'incident': crimeTypeController.text,
-      'summary': summaryController.text,
-      // 'incident': _chosenCrime.toString(),
-      'location': first.addressLine.toString(),
-      'date': crimeDateTime.toIso8601String(),
-    }).then((value) => LatLng(position.latitude, position.longitude));
-    return position;
-  }
-
 //get and move to current location
   void myLocation() async {
     await Geolocator.getCurrentPosition(
@@ -163,137 +90,6 @@ class _HomeScreenState extends State<HomeScreen> {
     ).then((value) => {
           controller.move(LatLng(value.latitude, value.longitude), 17.0),
           print(value)
-        });
-  }
-
-//collect crimeinfo dialog
-  // String _chosenCrime;
-  Future addMarker() async {
-    await showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            title: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Report ',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: primaryColor),
-                ),
-                Icon(
-                  Icons.edit,
-                  color: primaryColor,
-                )
-              ],
-            ),
-            children: [
-              SimpleDialogOption(
-                child: Expanded(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 5),
-                      Text('Reporter: $userEmail'),
-                      SizedBox(height: 5),
-                      // DropdownButton<String>(
-                      //   focusColor: Colors.white,
-                      //   value: _chosenCrime,
-                      //   //elevation: 5,
-                      //   style: TextStyle(color: Colors.white),
-                      //   iconEnabledColor: Colors.black,
-                      //   items: <String>[
-                      //     'Robbery',
-                      //     'Rape',
-                      //     'Kidnapping',
-                      //     'Car Theft',
-                      //     'Assualt',
-                      //   ].map<DropdownMenuItem<String>>((String value) {
-                      //     return DropdownMenuItem<String>(
-                      //       value: value,
-                      //       child: Text(
-                      //         value,
-                      //         style: TextStyle(color: Colors.black),
-                      //       ),
-                      //     );
-                      //   }).toList(),
-                      //   hint: Text(
-                      //     'Crime Type' ?? _chosenCrime,
-                      //     style: TextStyle(
-                      //         color: Colors.black,
-                      //         fontSize: 14,
-                      //         fontWeight: FontWeight.w500),
-                      //   ),
-                      //   onChanged: (String value) {
-                      //     setState(() {
-                      //       _chosenCrime = value;
-                      //     });
-                      //   },
-                      // ),
-
-                      TextField(
-                        controller: crimeTypeController,
-                        // obscureText: true,
-                        decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
-                          labelText: 'Incident type:',
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      
-                      TextField(
-                        controller: summaryController,
-                        // obscureText: true,
-                        decoration: InputDecoration(
-                          // border: OutlineInputBorder(),
-                          labelText: 'Brief detail',
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      // Text('Upload photo(s)'),
-                      // GestureDetector(
-                      //   onTap: () {
-                      //     getImage();
-                      //   },
-                      //   child: _image != null
-                      //       ? Container(
-                      //           height: 150,
-                      //           width: MediaQuery.of(context).size.width,
-                      //           margin: EdgeInsets.symmetric(horizontal: 16),
-                      //           child: ClipRRect(
-                      //             borderRadius: BorderRadius.circular(6),
-                      //             child: Image.file(
-                      //               _image,
-                      //               fit: BoxFit.cover,
-                      //             ),
-                      //           ),
-                      //         )
-                      //       : Container(
-                      //           margin: EdgeInsets.symmetric(horizontal: 16),
-                      //           decoration: BoxDecoration(color: Colors.white),
-                      //           height: 150,
-                      //           width: MediaQuery.of(context).size.width,
-                      //           child: Icon(Icons.add_a_photo,
-                      //               color: Colors.black),
-                      //         ),
-                      // ),
-                      // SizedBox(
-                      //   height: 8.0,
-                      // ),
-                      WelcomeButton(
-                        title: 'SEND',
-                        color: primaryColor,
-                        onPressed: () {
-                          collectCrimeInfo();
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          );
         });
   }
 
@@ -351,18 +147,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else {
                                 return Container(
+                                  height: 250,
                                   child: ListView(
                                     children: [
-                                      Icon(
-                                        Icons.info_outline,
-                                        color: primaryColor,
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.info_outline,
+                                            color: primaryColor,
+                                          ),
+                                          Text(
+                                            'Report',
+                                            style:
+                                                TextStyle(color: primaryColor),
+                                          )
+                                        ],
                                       ),
-                                      ListTile(
-                                        title: Text('Reporter: '),
-                                        subtitle: Text(snapshot.data
-                                                .documents[i]['reporter'] ??
-                                            'Not available'),
-                                      ),
+                                      // ListTile(
+                                      //   title: Text('Reporter: '),
+                                      //   subtitle: Text(snapshot.data
+                                      //           .documents[i]['reporter'] ??
+                                      //       'Not available'),
+                                      // ),
                                       ListTile(
                                         title: Text('Crime Type: '),
                                         subtitle: Text(snapshot.data
@@ -384,18 +194,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 .data.documents[i]['summary'] ??
                                             'Not available'),
                                       ),
-                                      ListTile(
-                                        title: Text('Status: '),
-                                        subtitle: Text(snapshot
-                                                .data.documents[i]['status'] ??
-                                            'Not available'),
-                                      ),
-                                      ListTile(
-                                        title: Text('Pictures: '),
-                                        subtitle: Text(snapshot
-                                                .data.documents[i]['media'] ??
-                                            'HQ'),
-                                      ),
+                                      // ListTile(
+                                      //   title: Text('Status: '),
+                                      //   subtitle: Text(snapshot
+                                      //           .data.documents[i]['status'] ??
+                                      //       'Not available'),
+                                      // ),
+                                      // ListTile(
+                                      //   title: Text('Pictures: '),
+                                      //   subtitle: Text(snapshot
+                                      //           .data.documents[i]['media'] ??
+                                      //       'HQ'),
+                                      // ),
                                     ],
                                   ),
                                 );
@@ -422,10 +232,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return FlutterMap(
           mapController: controller,
           options: MapOptions(
+            center: LatLng(4.1560, 9.2632),
             minZoom: 0.0,
-            plugins: [
-              // MarkerClusterPlugin(),
-            ],
           ),
           layers: [
             TileLayerOptions(
@@ -440,24 +248,6 @@ class _HomeScreenState extends State<HomeScreen> {
             MarkerLayerOptions(
               markers: allMarkers,
             )
-            // MarkerClusterLayerOptions(
-            //   maxClusterRadius: 120,
-            //   size: Size(40, 40),
-            //   fitBoundsOptions: FitBoundsOptions(
-            //     padding: EdgeInsets.all(50),
-            //   ),
-            //   markers: allMarkers,
-            //   // polygonOptions: PolygonOptions(
-            //   //     borderColor: primaryColor,
-            //   //     color: primaryColor,
-            //   //     borderStrokeWidth: 3),
-            //   builder: (context, markers) {
-            //     return FloatingActionButton(
-            //         backgroundColor: primaryColor,
-            //         child: Text(markers.length.toString()),
-            //         onPressed: null);
-            //   },
-            // )
           ],
         );
       },
@@ -478,12 +268,10 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: [
           FlatButton(
             onPressed: myLocation,
-            // onPressed: () => {print(crimeDateTime)},
             child: Container(
               child: Row(children: [
                 IconButton(
                   onPressed: myLocation,
-                  // onPressed: () => {print(crimeDateTime)},
                   icon: Icon(
                     Icons.navigation,
                     color: white,
@@ -612,7 +400,7 @@ class _HomeScreenState extends State<HomeScreen> {
           label: Text('Report'),
           icon: Icon(Icons.add),
           backgroundColor: primaryColor,
-          onPressed: addMarker,
+          onPressed: () => Navigator.pushNamed(context, ReportIncident.id),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
