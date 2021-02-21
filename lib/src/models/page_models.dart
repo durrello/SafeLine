@@ -15,7 +15,7 @@ List<PageModel> pages = [
     img: 'assets/images/logoWhite.png',
   ),
   PageModel(
-    icon: Icons.favorite,
+    icon: Icons.info_outline,
     title: 'Report Incidents',
     subtitle:
         "With the click of a button let others know what is happening around you",
