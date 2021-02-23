@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () =>
                       Navigator.pushNamed(context, RegistrationScreen.id),
                   child: Text(
-                    "Already have an account?",
+                    "Don't have an account?",
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),

@@ -223,21 +223,21 @@ class _ReportIncidentState extends State<ReportIncident> {
               ),
               TextFormField(
                 decoration: TextFieldDecoration.copyWith(
-                    hintText: 'If yes or maybe Explain', labelText: 'Explain'),
+                    hintText: 'If yes or maybe Explain', labelText: 'If yes or maybe Explain'),
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   //Do something with the user input.
                   injurySummary = value;
                 },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Explanation is required!';
-                  }
-                  if (value.length < 25) {
-                    return 'Explanation must be atleast 25 characters';
-                  }
-                  return null;
-                },
+                // validator: (value) {
+                //   if (value.isEmpty) {
+                //     return 'Explanation is required!';
+                //   }
+                //   if (value.length < 25) {
+                //     return 'Explanation must be atleast 25 characters';
+                //   }
+                //   return null;
+                // },
               ),
               Divider(),
               WelcomeButton(
