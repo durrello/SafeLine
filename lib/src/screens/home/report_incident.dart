@@ -108,9 +108,9 @@ class _ReportIncidentState extends State<ReportIncident> {
           child: ListView(children: [
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               ListTile(
-                // title: Text('Reporter'),
-                // subtitle: Text(userEmail),
-              ),
+                  // title: Text('Reporter'),
+                  // subtitle: Text(userEmail),
+                  ),
               Divider(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -129,8 +129,8 @@ class _ReportIncidentState extends State<ReportIncident> {
                     items: <String>[
                       'Robbery',
                       'Fire Outbreak',
-                      'Power Line Down'
-                          'Rape',
+                      'Power Line Down',
+                      'Rape',
                       'Kidnapping',
                       'Car Theft',
                       'Assualt',
@@ -223,7 +223,8 @@ class _ReportIncidentState extends State<ReportIncident> {
               ),
               TextFormField(
                 decoration: TextFieldDecoration.copyWith(
-                    hintText: 'If yes or maybe Explain', labelText: 'If yes or maybe Explain'),
+                    hintText: 'If yes or maybe Explain',
+                    labelText: 'If yes or maybe Explain'),
                 textAlign: TextAlign.center,
                 onChanged: (value) {
                   //Do something with the user input.

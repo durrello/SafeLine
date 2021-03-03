@@ -12,7 +12,7 @@
          
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Stay Safe"
+        android:label="CRIMELINE"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
