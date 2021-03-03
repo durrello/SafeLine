@@ -79,8 +79,8 @@ class _ReportIncidentState extends State<ReportIncident> {
       // 'reporter': userEmail,
       'incident': _chosenCrime.toString(),
       'injured': _injury,
-      'injurySummary'
-          'summary': incidentSummary,
+      'injurySummary': injurySummary,
+      'summary': incidentSummary,
       // 'incident2': _chosenCrime.toString(),
       'location': first.addressLine.toString(),
       'date': crimeDateTime.toIso8601String(),

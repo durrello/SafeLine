@@ -149,65 +149,67 @@ class _HomeScreenState extends State<HomeScreen> {
                               } else {
                                 return Container(
                                   height: 250,
-                                  child: ListView(
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.info_outline,
-                                            color: primaryColor,
-                                          ),
-                                          Text(
-                                            'Report',
-                                            style:
-                                                TextStyle(color: primaryColor),
-                                          )
-                                        ],
-                                      ),
-                                      // ListTile(
-                                      //   title: Text('Reporter: '),
-                                      //   subtitle: Text(snapshot.data
-                                      //           .documents[i]['reporter'] ??
-                                      //       'Not available'),
-                                      // ),
-                                      ListTile(
-                                        title: Text('Crime Type: '),
-                                        subtitle: Text(snapshot.data
-                                                .documents[i]['incident'] ??
-                                            'Not available'),
-                                        // trailing: Text(snapshot.data
-                                        //     .documents[i]['date'].toString() ??
-                                        // 'Not available'),
-                                      ),
-                                      ListTile(
-                                        title: Text('Location: '),
-                                        subtitle: Text(snapshot.data
-                                                .documents[i]['location'] ??
-                                            'Not available'),
-                                      ),
-                                      ListTile(
-                                        title: Text('Summary of crime: '),
-                                        subtitle: Text(snapshot
-                                                .data.documents[i]['summary'] ??
-                                            'Not available'),
-                                      ),
-                                      // ListTile(
-                                      //   title: Text('Status: '),
-                                      //   subtitle: Text(snapshot
-                                      //           .data.documents[i]['status'] ??
-                                      //       'Not available'),
-                                      // ),
-                                      // ListTile(
-                                      //   title: Text('Pictures: '),
-                                      //   subtitle: Text(snapshot
-                                      //           .data.documents[i]['media'] ??
-                                      //       'HQ'),
-                                      // ),
-                                    ],
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Icon(
+                                              Icons.info_outline,
+                                              color: primaryColor,
+                                            ),
+                                            Text(
+                                              'Report',
+                                              style: TextStyle(
+                                                  color: primaryColor),
+                                            )
+                                          ],
+                                        ),
+                                        // ListTile(
+                                        //   title: Text('Reporter: '),
+                                        //   subtitle: Text(snapshot.data
+                                        //           .documents[i]['reporter'] ??
+                                        //       'Not available'),
+                                        // ),
+                                        ListTile(
+                                          title: Text('Crime Type: '),
+                                          subtitle: Text(snapshot.data
+                                                  .documents[i]['incident'] ??
+                                              'Not available'),
+                                          // trailing: Text(snapshot.data
+                                          //     .documents[i]['date'].toString() ??
+                                          // 'Not available'),
+                                        ),
+                                        ListTile(
+                                          title: Text('Location: '),
+                                          subtitle: Text(snapshot.data
+                                                  .documents[i]['location'] ??
+                                              'Not available'),
+                                        ),
+                                        ListTile(
+                                          title: Text('Summary of crime: '),
+                                          subtitle: Text(snapshot.data
+                                                  .documents[i]['summary'] ??
+                                              'Not available'),
+                                        ),
+                                        // ListTile(
+                                        //   title: Text('Status: '),
+                                        //   subtitle: Text(snapshot
+                                        //           .data.documents[i]['status'] ??
+                                        //       'Not available'),
+                                        // ),
+                                        // ListTile(
+                                        //   title: Text('Pictures: '),
+                                        //   subtitle: Text(snapshot
+                                        //           .data.documents[i]['media'] ??
+                                        //       'HQ'),
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               }
