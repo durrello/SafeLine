@@ -5,10 +5,11 @@ import 'package:flutter_map/plugin_api.dart';
 import 'package:latlong/latlong.dart';
 import 'dart:async';
 import 'package:geolocator/geolocator.dart';
-import 'package:share/share.dart';
+// import 'package:share/share.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/about/about.dart';
-import 'package:stay_safe/src/screens/chat/chat_screen.dart';
+// import 'package:stay_safe/src/screens/contact/contact.dart';
+// import 'package:stay_safe/src/screens/chat/chat_screen.dart';
 import 'package:stay_safe/src/screens/home/report_incident.dart';
 import 'package:stay_safe/src/screens/rate_app/rate.dart';
 import 'package:stay_safe/src/screens/reports/reports.dart';
@@ -323,19 +324,18 @@ class _HomeScreenState extends State<HomeScreen> {
             //body
             DrawerOption(
               text: "Reports",
-              // iconData: FontAwesomeIcons.userSecret,
               iconData: Icons.book,
               onPressed: () => Navigator.pushNamed(context, ReportsScreen.id)
                   .then((value) => setState(() {})),
             ),
 
-            DrawerOption(
-              text: "Notifications",
-              iconData: Icons.chat,
-              onPressed: () {
-                Navigator.pushNamed(context, ChatScreen.id);
-              },
-            ),
+            // DrawerOption(
+            //   text: "Notifications",
+            //   iconData: Icons.chat,
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, ChatScreen.id);
+            //   },
+            // ),
 
             DrawerOption(
               text: "Rate App",
@@ -345,16 +345,24 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
 
-            DrawerOption(
-              text: "Share App",
-              iconData: Icons.share,
-              onPressed: () {
-                Share.share(
-                    'CRIMELINE is a mobile application which was developed to fight crime in our individual communities. \n Download the App via the link provided below and help keep the community safe \n www.zuoix.com',
-                    subject: 'Download the App!');
-                // share();
-              },
-            ),
+            // DrawerOption(
+            //   text: "Share App",
+            //   iconData: Icons.share,
+            //   onPressed: () {
+            //     Share.share(
+            //         'CRIMELINE is a mobile application which was developed to fight crime and reduce incident rate in our individual communities. \n Keep your community safe \n Stay safe \n CRIMELINE',
+            //         subject: 'Download the App!');
+            //     // share();
+            //   },
+            // ),
+
+            // DrawerOption(
+            //   text: "Contact Us",
+            //   iconData: Icons.info,
+            //   onPressed: () {
+            //     Navigator.pushNamed(context, Contact.id);
+            //   },
+            // ),
 
             DrawerOption(
               text: "Setting",
@@ -378,7 +386,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Column(
               children: [
                 Text('Version'),
-                Text('x.x.x.x'),
+                Text('1.0'),
                 SizedBox(
                   height: 10,
                 ),

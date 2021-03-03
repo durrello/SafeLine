@@ -108,8 +108,8 @@ class _ReportIncidentState extends State<ReportIncident> {
           child: ListView(children: [
             Column(mainAxisAlignment: MainAxisAlignment.center, children: [
               ListTile(
-                title: Text('Reporter'),
-                subtitle: Text(userEmail),
+                // title: Text('Reporter'),
+                // subtitle: Text(userEmail),
               ),
               Divider(),
               Row(
