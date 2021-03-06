@@ -15,6 +15,7 @@ import 'package:stay_safe/src/screens/rate_app/rate.dart';
 import 'package:stay_safe/src/screens/reports/reports.dart';
 import 'package:stay_safe/src/screens/settings/settings.dart';
 import 'package:stay_safe/src/widgets/drawer_option.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class HomeScreen extends StatefulWidget {
   static String id = 'home_screen';
@@ -24,6 +25,10 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //firbase messaging
+  String token = '';
+  final FirebaseMessaging firebaseMessaging = FirebaseMessaging();
+
   //for bottom navigation
   // int _currentIndex = 0;
   // final List<Widget> _children = [
@@ -59,6 +64,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
+    //firebase messaging
+    getToken();
+
+    firebaseMessaging.requestNotificationPermissions(
+        const IosNotificationSettings(
+            alert: true, badge: true, provisional: true, sound: true));
+
+    firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print("onMessage: $message");
+        //_showItemDialog(message);
+      },
+      //onBackgroundMessage: myBackgroundMessageHandler,
+      onLaunch: (Map<String, dynamic> message) async {
+        print("onLaunch: $message");
+        //_navigateToItemDetail(message);
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print("onResume: $message");
+        //_navigateToItemDetail(message);
+      },
+    );
     super.initState();
 
     //run t go to user location after 3 seconds
@@ -73,7 +100,11 @@ class _HomeScreenState extends State<HomeScreen> {
     //get current user
     getCurrentUser();
   }
-//end login
+
+//firebase messaging
+  void getToken() async {
+    token = await firebaseMessaging.getToken();
+  }
 
 //map
   List<Marker> allMarkers = [];
@@ -270,7 +301,10 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         actions: [
           FlatButton(
-            onPressed: myLocation,
+            onPressed: () {
+              myLocation();
+              print(token);
+            },
             child: Container(
               child: Row(children: [
                 IconButton(
