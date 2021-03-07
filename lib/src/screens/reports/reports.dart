@@ -126,7 +126,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
                             // },
                             // child:
                             ListTile(
-                          leading: Image.asset('assets/images/logoRed.png'),
+                          leading: Image.network('${_markers[index].data['url']}'),
                           title: Text('${_markers[index].data['incident']}'),
                           subtitle: Text('${_markers[index].data['location']}'),
                           // trailing: ,
