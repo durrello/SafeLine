@@ -85,7 +85,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
   String getreportText = 'Near me';
 
   toggleReport() {}
-//end login
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,21 +118,141 @@ class _ReportsScreenState extends State<ReportsScreen> {
                   : ListView.builder(
                       itemCount: _markers.length,
                       itemBuilder: (BuildContext ctx, int index) {
-                        return
-                            // GestureDetector(
-                            // onTap: () {
-                            //   Navigator.pushNamed(
-                            //       context, ReportDetailsScreen.id);
-                            // },
-                            // child:
-                            ListTile(
-                          leading: Image.network('${_markers[index].data['url']}'),
-                          title: Text('${_markers[index].data['incident']}'),
-                          subtitle: Text('${_markers[index].data['location']}'),
-                          // trailing: ,
-                          // trailing: Text("${_markers[index].data['date'].toDate().toString()}"),
-                        );
-                        // );
+                        return GestureDetector(
+                            onTap: () {
+                              return showDialog<void>(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: StreamBuilder<QuerySnapshot>(
+                                      stream: Firestore.instance
+                                          .collection('markers')
+                                          .snapshots(),
+                                      builder: (context, snapshot) {
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                CircularProgressIndicator(
+                                                  backgroundColor: primaryColor,
+                                                ),
+                                                Text('Loading Please wait'),
+                                              ],
+                                            ),
+                                          );
+                                        } else {
+                                          return Container(
+                                            // height: 250,
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Icon(
+                                                        Icons.info_outline,
+                                                        color: primaryColor,
+                                                      ),
+                                                      Text(
+                                                        'Report',
+                                                        style: TextStyle(
+                                                            color:
+                                                                primaryColor),
+                                                      )
+                                                    ],
+                                                  ),
+                                                  ListTile(
+                                                    title: Text('Crime Type: '),
+                                                    subtitle: Text(
+                                                        '${_markers[index].data['incident']}'),
+                                                  ),
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: primaryColor,
+                                                  ),
+                                                  ListTile(
+                                                      title: Text('Location: '),
+                                                      subtitle: Text(
+                                                          '${_markers[index].data['location']}')),
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: primaryColor,
+                                                  ),
+                                                  ListTile(
+                                                    title: Text(
+                                                        'Summary of crime: '),
+                                                    subtitle: Text(
+                                                        '${_markers[index].data['summary']}' ??
+                                                            'Not available'),
+                                                  ),
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: primaryColor,
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment.start,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text('Injuries: '),
+                                                      ListTile(
+                                                        title: Text(
+                                                            '${_markers[index].data['injured']}'),
+                                                        subtitle: Text(
+                                                            '${_markers[index].data['injurySummary']}' ??
+                                                                'Not available'),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Divider(thickness: 1, color: primaryColor,),
+                                                  Text('Image from scene'),
+                                                  _markers[index].data['url'] ==
+                                                          null
+                                                      ? Text('No Image found')
+                                                      : Container(
+                                                          child: Image.network(
+                                                            '${_markers[index].data['url']}',
+                                                            height: 300,
+                                                          ),
+                                                        )
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    ),
+                                    actions: [
+                                      FlatButton(
+                                        child: Text('Close'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: ListTile(
+                              leading: Image.network(
+                                  '${_markers[index].data['url']}'),
+                              title:
+                                  Text('${_markers[index].data['incident']}'),
+                              subtitle:
+                                  Text('${_markers[index].data['location']}'),
+                              // trailing: ,
+                              // trailing: Text("${_markers[index].data['date'].toDate().toString()}"),
+                            ));
                       }),
             ),
       floatingActionButton: Container(

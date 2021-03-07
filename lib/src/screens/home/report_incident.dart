@@ -11,7 +11,6 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/home/home.dart';
 import 'package:stay_safe/src/widgets/wlc_button.dart';
-import 'dart:io';
 
 class ReportIncident extends StatefulWidget {
   static String id = 'report_screen';
@@ -120,7 +119,7 @@ class _ReportIncidentState extends State<ReportIncident> {
   //get crime information and send to firebase
   DateTime crimeDateTime = DateTime.now();
   String _injury = 'No';
-  String incidentSummary;
+  String incidentSummary = 'No incident';
   String injurySummary;
   String _chosenCrime = 'Robbery';
 
