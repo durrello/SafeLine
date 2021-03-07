@@ -1,6 +1,9 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/models/page_models.dart';
+import 'package:stay_safe/src/screens/auth/login_screen.dart';
 import 'package:stay_safe/src/screens/welcome/welcome_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
@@ -9,7 +12,24 @@ class OnboardingScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen> with AfterLayoutMixin<OnboardingScreen> {
+   Future checkFirstSeen() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool _seen = (prefs.getBool('seen') ?? false);
+
+    if (_seen) {
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new LoginScreen()));
+    } else {
+      await prefs.setBool('seen', true);
+      Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new WelcomeScreen()));
+    }
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) => checkFirstSeen();
+  
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {

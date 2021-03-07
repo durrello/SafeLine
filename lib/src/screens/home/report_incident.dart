@@ -42,7 +42,9 @@ class _ReportIncidentState extends State<ReportIncident> {
     }
   }
 
-//for picture upload
+//collect incident report
+// DateFormat.yMMMd().format(DateTime.now());
+
   var _image;
   Future getPicture() async {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -60,11 +62,7 @@ class _ReportIncidentState extends State<ReportIncident> {
     print(_image.toString());
   }
 
-  int imageName;
   bool showSpinner = false;
-  imageNamefun() {
-    imageName = imageName++;
-  }
 
   var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
@@ -73,6 +71,13 @@ class _ReportIncidentState extends State<ReportIncident> {
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   Future collectCrimeInfo() async {
+    //get date
+    // DateTime today = new DateTime.now();
+    // var _today = DateTime.parse(today.toString());
+    // var _formatToday = DateFormat.yMMMd().format(today);
+    DateTime now = new DateTime.now();
+    DateTime date =
+        new DateTime(now.year, now.month, now.day, now.hour, now.minute);
     setState(() {
       this.showSpinner = true;
     });
@@ -104,11 +109,15 @@ class _ReportIncidentState extends State<ReportIncident> {
           'injurySummary': injurySummary,
           'summary': incidentSummary,
           'location': first.addressLine.toString(),
-          'date': crimeDateTime.toIso8601String(),
+          'date': date.toString(),
           "url": downloadUrl,
         });
         return position;
       }
+    } else {
+      _globalKey.currentState.showSnackBar(SnackBar(
+        content: Text("Not logged please add image"),
+      ));
     }
 
     setState(() {
@@ -199,7 +208,9 @@ class _ReportIncidentState extends State<ReportIncident> {
                   textAlign: TextAlign.center,
                   onChanged: (value) {
                     //Do something with the user input.
-                    incidentSummary = value;
+                    setState(() {
+                      incidentSummary = value;
+                    });
                   },
                   validator: (value) {
                     if (value.isEmpty) {

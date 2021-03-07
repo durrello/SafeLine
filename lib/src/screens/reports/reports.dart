@@ -169,9 +169,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                                     ],
                                                   ),
                                                   ListTile(
-                                                    title: Text('Crime Type: '),
+                                                    title: Text(
+                                                        'Crime: ${_markers[index].data['incident']}'),
                                                     subtitle: Text(
-                                                        '${_markers[index].data['incident']}'),
+                                                        '${_markers[index].data['date']}'),
                                                   ),
                                                   Divider(
                                                     thickness: 1,
@@ -213,7 +214,10 @@ class _ReportsScreenState extends State<ReportsScreen> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Divider(thickness: 1, color: primaryColor,),
+                                                  Divider(
+                                                    thickness: 1,
+                                                    color: primaryColor,
+                                                  ),
                                                   Text('Image from scene'),
                                                   _markers[index].data['url'] ==
                                                           null
