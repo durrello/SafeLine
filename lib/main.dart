@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:stay_safe/src/screens/sos/sos.dart';
 import 'src/screens/about/about.dart';
 import 'src/screens/auth/login_screen.dart';
 import 'src/screens/auth/registration_screen.dart';
@@ -10,7 +11,6 @@ import 'src/screens/home/home.dart';
 import 'src/screens/home/map.dart';
 import 'src/screens/home/report_incident.dart';
 import 'src/screens/rate_app/rate.dart';
-import 'src/screens/reports/report_details.dart';
 import 'src/screens/reports/reports.dart';
 import 'src/screens/settings/settings.dart';
 import 'src/screens/welcome/onboarding_screen.dart';
@@ -37,7 +37,6 @@ class CrimeLine extends StatelessWidget {
         ReportIncident.id: (context) => ReportIncident(),
         MapScreen.id: (context) => MapScreen(),
         ReportsScreen.id: (context) => ReportsScreen(),
-        ReportDetailsScreen.id: (context) => ReportDetailsScreen(),
         CriminalScreen.id: (context) => CriminalScreen(),
         LoginScreen.id: (context) => LoginScreen(),
         RegistrationScreen.id: (context) => RegistrationScreen(),
@@ -46,6 +45,7 @@ class CrimeLine extends StatelessWidget {
         RateMyApp.id: (context) => RateMyApp(),
         SettingScreen.id: (context) => SettingScreen(),
         Contact.id: (context) => Contact(),
+        SOS.id: (context) => SOS(),
       },
     );
   }

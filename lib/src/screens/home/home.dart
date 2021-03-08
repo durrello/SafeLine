@@ -8,12 +8,11 @@ import 'package:geolocator/geolocator.dart';
 // import 'package:share/share.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/about/about.dart';
-// import 'package:stay_safe/src/screens/contact/contact.dart';
-// import 'package:stay_safe/src/screens/chat/chat_screen.dart';
 import 'package:stay_safe/src/screens/home/report_incident.dart';
 import 'package:stay_safe/src/screens/rate_app/rate.dart';
 import 'package:stay_safe/src/screens/reports/reports.dart';
 import 'package:stay_safe/src/screens/settings/settings.dart';
+import 'package:stay_safe/src/screens/sos/sos.dart';
 import 'package:stay_safe/src/widgets/drawer_option.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
@@ -179,74 +178,51 @@ class _HomeScreenState extends State<HomeScreen> {
                                 );
                               } else {
                                 return Container(
-                                  height: 250,
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      children: [
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.info_outline,
-                                              color: primaryColor,
-                                            ),
-                                            Text(
-                                              'Report',
-                                              style: TextStyle(
-                                                  color: primaryColor),
-                                            )
-                                          ],
-                                        ),
-                                        // ListTile(
-                                        //   title: Text('Reporter: '),
-                                        //   subtitle: Text(snapshot.data
-                                        //           .documents[i]['reporter'] ??
-                                        //       'Not available'),
-                                        // ),
-                                        ListTile(
-                                          title: Text('Crime Type: '),
-                                          subtitle: Text(snapshot.data
-                                                  .documents[i]['incident'] ??
-                                              'Not available'),
-                                          // trailing: Text(snapshot.data
-                                          //     .documents[i]['date'].toString() ??
-                                          // 'Not available'),
-                                        ),
-                                        ListTile(
-                                          title: Text('Location: '),
-                                          subtitle: Text(snapshot.data
-                                                  .documents[i]['location'] ??
-                                              'Not available'),
-                                        ),
-                                        ListTile(
-                                          title: Text('Summary of crime: '),
-                                          subtitle: Text(snapshot.data
-                                                  .documents[i]['summary'] ??
-                                              'Not available'),
-                                        ),
-                                        // ListTile(
-                                        //   title: Text('Status: '),
-                                        //   subtitle: Text(snapshot
-                                        //           .data.documents[i]['status'] ??
-                                        //       'Not available'),
-                                        // ),
-                                        // ListTile(
-                                        //   title: Text('Pictures: '),
-                                        //   subtitle: Text(snapshot
-                                        //           .data.documents[i]['media'] ??
-                                        //       'HQ'),
-                                        // ),
-                                      ],
-                                    ),
+                                  height: 100,
+                                  child: ListView(
+                                    children: [
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.info_outline,
+                                            color: primaryColor,
+                                          ),
+                                          Text(
+                                            'Report',
+                                            style: TextStyle(
+                                                color: primaryColor),
+                                          )
+                                        ],
+                                      ),
+                                      ListTile(
+                                        // title: Text('Crime Type: '),
+                                        title: Text(snapshot.data
+                                                .documents[i]['incident'] ??
+                                            'Not available'),
+                                        subtitle: Text(snapshot.data
+                                                .documents[i]['location'] ??
+                                            'Not available'),
+                                        leading: Image.network(snapshot.data
+                                            .documents[i]['url'].toString() ??
+                                        Image.asset('assets/images/logoRed.png')),
+                                      ),
+                                    ],
                                   ),
                                 );
                               }
                             },
                           ),
                           actions: [
+                            FlatButton(
+                              child: Text('Reports'),
+                              onPressed: () {
+                                Navigator.pushNamed(context, ReportsScreen.id);
+                              },
+                            ),
                             FlatButton(
                               child: Text('Close'),
                               onPressed: () {
@@ -358,6 +334,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             //body
+            DrawerOption(
+              text: "SOS",
+              iconData: Icons.book,
+              onPressed: () => Navigator.pushNamed(context, SOS.id)
+                  .then((value) => setState(() {})),
+            ),
+
+            Divider(thickness: 1, color: primaryColor,),
             DrawerOption(
               text: "Reports",
               iconData: Icons.book,
