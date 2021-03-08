@@ -146,7 +146,7 @@ class _SOSState extends State<SOS> {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                        image: AssetImage('assets/images/logoRed.png'),
+                        image: AssetImage('assets/images/sos.jpg'),
                         fit: BoxFit.fill),
                   ),
                 ),
