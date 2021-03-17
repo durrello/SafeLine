@@ -8,7 +8,6 @@ import 'src/screens/chat/chat_screen.dart';
 import 'src/screens/contact/contact.dart';
 import 'src/screens/criminals/criminal.dart';
 import 'src/screens/home/home.dart';
-import 'src/screens/home/map.dart';
 import 'src/screens/home/report_incident.dart';
 import 'src/screens/notification/notifications.dart';
 import 'src/screens/rate_app/rate.dart';
@@ -36,7 +35,6 @@ class CrimeLine extends StatelessWidget {
         WelcomeScreen.id: (context) => WelcomeScreen(),
         HomeScreen.id: (context) => HomeScreen(),
         ReportIncident.id: (context) => ReportIncident(),
-        MapScreen.id: (context) => MapScreen(),
         ReportsScreen.id: (context) => ReportsScreen(),
         CriminalScreen.id: (context) => CriminalScreen(),
         LoginScreen.id: (context) => LoginScreen(),
