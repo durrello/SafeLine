@@ -10,6 +10,8 @@ Color black = Colors.black;
 Color grey = Colors.grey;
 Color white = Colors.white;
 Color red = Colors.redAccent;
+Color yellow = Colors.yellow;
+Color green = Colors.green;
 
 //for onboarding
 final kTitleStyle = TextStyle(

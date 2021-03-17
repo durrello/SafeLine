@@ -125,6 +125,21 @@ class _HomeScreenState extends State<HomeScreen> {
         });
   }
 
+  color(snapshot) {
+    if (snapshot['state'] == false && snapshot['status'] == false) {
+      return primaryColor;
+    }
+    if (snapshot['state'] == false && snapshot['status'] == true) {
+      return yellow;
+    }
+    if (snapshot['state'] == true && snapshot['status'] == false) {
+      return yellow;
+    }
+    if (snapshot['state'] == true && snapshot['status'] == true) {
+      return green;
+    }
+  }
+
   Widget loadMap() {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('markers').snapshots(),
@@ -153,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
               builder: (context) => Container(
                 child: IconButton(
                   icon: Icon(Icons.location_on),
-                  color: primaryColor,
+                  color: color(snapshot.data.documents[i]),
                   iconSize: 45,
                   onPressed: () {
                     return showDialog<void>(
@@ -194,22 +209,35 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           Text(
                                             'Report',
-                                            style: TextStyle(
-                                                color: primaryColor),
+                                            style:
+                                                TextStyle(color: primaryColor),
                                           )
                                         ],
                                       ),
                                       ListTile(
-                                        // title: Text('Crime Type: '),
-                                        title: Text(snapshot.data
-                                                .documents[i]['incident'] ??
-                                            'Not available'),
+                                        title: Row(
+                                          children: [
+                                            Text(snapshot.data.documents[i]
+                                                    ['incident'] ??
+                                                'Not available'),
+                                            Spacer(),
+                                            Text(
+                                              snapshot.data.documents[i]
+                                                      ['status-text'] ??
+                                                  'Not available',
+                                              style: TextStyle(fontSize: 10),
+                                            )
+                                          ],
+                                        ),
                                         subtitle: Text(snapshot.data
                                                 .documents[i]['location'] ??
                                             'Not available'),
-                                        leading: Image.network(snapshot.data
-                                            .documents[i]['url'].toString() ??
-                                        Image.asset('assets/images/logoRed.png')),
+                                        leading: Image.network(snapshot
+                                                .data.documents[i]['url']
+                                                .toString() ??
+                                            Image.asset(
+                                                'assets/images/logoRed.png')),
+                                        // trailing:
                                       ),
                                     ],
                                   ),
@@ -300,24 +328,6 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   selectedItemColor: primaryColor,
-      //   backgroundColor: bgColor,
-      //   selectedFontSize: 16,
-      //   selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-      //   onTap: onTabTapped, // new
-      //   currentIndex: _currentIndex, // new
-      //   items: const <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.home),
-      //       title: Text('Home'),
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Icon(Icons.book),
-      //       title: Text('News'),
-      //     )
-      //   ],
-      // ),
       drawer: Drawer(
         child: ListView(
           children: [
@@ -342,13 +352,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   .then((value) => setState(() {})),
             ),
 
-            Divider(thickness: 1, color: primaryColor,),
-           
+            Divider(
+              thickness: 1,
+              color: primaryColor,
+            ),
+
             DrawerOption(
               text: "Notifications",
               iconData: Icons.notifications,
               onPressed: () {
-               Navigator.pushNamed(context, Notifications.id);
+                Navigator.pushNamed(context, Notifications.id);
               },
             ),
             DrawerOption(
@@ -379,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //   iconData: Icons.share,
             //   onPressed: () {
             //     Share.share(
-            //         'CRIMELINE is a mobile application which was developed to fight crime and reduce incident rate in our individual communities. \n Keep your community safe \n Stay safe \n CRIMELINE',
+            //         'Stay safe is a mobile application which was developed to fight crime and reduce incident rate in our individual communities. \n Keep your community safe \n Stay safe',
             //         subject: 'Download the App!');
             //     // share();
             //   },

@@ -65,6 +65,8 @@ class _ReportIncidentState extends State<ReportIncident> {
   bool showSpinner = false;
   bool status = false;
   bool state = false;
+  String statusText = 'Active report';
+  
 
   var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
@@ -81,7 +83,9 @@ class _ReportIncidentState extends State<ReportIncident> {
     DateTime date =
         new DateTime(now.year, now.month, now.day, now.hour, now.minute);
     setState(() {
-      this.showSpinner = true;
+      showSpinner = true;
+      // state = false;
+      // status = false;
     });
 
     if (_image != null) {
@@ -104,6 +108,7 @@ class _ReportIncidentState extends State<ReportIncident> {
         print("${first.featureName} : ${first.addressLine}");
 
         await Firestore.instance.collection('markers').add({
+          'id': getRandomString(16).toString(),
           'coords': new GeoPoint(position.latitude, position.longitude),
           // 'reporter': userEmail,
           'incident': _chosenCrime.toString(),
@@ -113,6 +118,9 @@ class _ReportIncidentState extends State<ReportIncident> {
           'location': first.addressLine.toString(),
           'date': date.toString(),
           "url": downloadUrl,
+          "state": state,
+          "status": status,
+          "status-text": statusText,
         });
         return position;
       }
@@ -204,12 +212,10 @@ class _ReportIncidentState extends State<ReportIncident> {
                     ),
                   ],
                 ),
-
                 SizedBox(
                   child: Divider(),
                   height: 40,
                 ),
-
                 TextFormField(
                   decoration: TextFieldDecoration.copyWith(
                       hintText: 'Please explain:', labelText: 'Summary'),
@@ -288,26 +294,14 @@ class _ReportIncidentState extends State<ReportIncident> {
                       labelText: 'If yes or maybe Explain'),
                   textAlign: TextAlign.center,
                   onChanged: (value) {
-                    //Do something with the user input.
                     injurySummary = value;
                   },
-                  // validator: (value) {
-                  //   if (value.isEmpty) {
-                  //     return 'Explanation is required!';
-                  //   }
-                  //   if (value.length < 25) {
-                  //     return 'Explanation must be atleast 25 characters';
-                  //   }
-                  //   return null;
-                  // },
                 ),
                 SizedBox(
                   child: Divider(),
                   height: 40,
                 ),
                 Text('Upload photo(s)'),
-                // RaisedButton(child: Text("Pick Image"), onPressed: getPicture),
-
                 GestureDetector(
                   onTap: () {
                     getPicture();
@@ -333,9 +327,7 @@ class _ReportIncidentState extends State<ReportIncident> {
                           child: Icon(Icons.add_a_photo, color: Colors.black),
                         ),
                 ),
-                SizedBox(
-                  height: 10.0,
-                ),
+                SizedBox(height: 10.0),
                 Divider(),
                 WelcomeButton(
                   title: 'Report',
