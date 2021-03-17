@@ -10,6 +10,7 @@ import 'src/screens/criminals/criminal.dart';
 import 'src/screens/home/home.dart';
 import 'src/screens/home/map.dart';
 import 'src/screens/home/report_incident.dart';
+import 'src/screens/notification/notifications.dart';
 import 'src/screens/rate_app/rate.dart';
 import 'src/screens/reports/reports.dart';
 import 'src/screens/settings/settings.dart';
@@ -28,7 +29,7 @@ class CrimeLine extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: SplashScreen.id,
+      initialRoute: HomeScreen.id,
       routes: {
         SplashScreen.id: (context) => SplashScreen(),
         OnboardingScreen.id: (context) => OnboardingScreen(),
@@ -46,6 +47,7 @@ class CrimeLine extends StatelessWidget {
         SettingScreen.id: (context) => SettingScreen(),
         Contact.id: (context) => Contact(),
         SOS.id: (context) => SOS(),
+        Notifications.id: (context) => Notifications()
       },
     );
   }

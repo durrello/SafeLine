@@ -22,91 +22,6 @@ class _SOSState extends State<SOS> {
     }
   }
 
-  Future<void> placeCall() async {
-    return showDialog<void>(
-      context: context,
-      // barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Icon(
-            Icons.call,
-            color: primaryColor,
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Divider(color: primaryColor),
-                InkWell(
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Text('POLICE',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        trailing: Icon(
-                          Icons.person_outline,
-                          color: blue,
-                        ),
-                      )),
-                  onTap: () {
-                    print('call police');
-                    customLaunch('tel: 117');
-                  },
-                ),
-                Divider(color: primaryColor),
-                InkWell(
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Text('HOSPITAL',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        trailing: Icon(
-                          FontAwesomeIcons.hospital,
-                          color: red,
-                        ),
-                      )),
-                  onTap: () {
-                    print('call hospital');
-                    customLaunch('tel: 119');
-                  },
-                ),
-                Divider(color: primaryColor),
-                InkWell(
-                  child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ListTile(
-                        title: Text('FIRE BRIGADE',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        trailing: Icon(
-                          FontAwesomeIcons.fire,
-                          color: Colors.yellow,
-                        ),
-                      )),
-                  onTap: () {
-                    print('call fire brigade');
-                    customLaunch('tel: 118');
-                  },
-                ),
-                Divider(color: primaryColor)
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,50 +33,94 @@ class _SOSState extends State<SOS> {
         leading: null,
         // actions: [Icon(Icons.notifications)],
       ),
-      body: Align(
-        alignment: Alignment.center,
-        child: Container(
+      body: Center(
+        child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
               Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(24.0),
                 child: Text(
-                  'EMERGENCY?',
-                  textAlign: TextAlign.center,
+                  'Contact any of our SOS services.',
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              GestureDetector(
-                onTap: () {
-                  placeCall();
-                },
-                child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: AssetImage('assets/images/sos.jpg'),
-                        fit: BoxFit.fill),
-                  ),
-                ),
+              Divider(
+                color: primaryColor,
+                thickness: 3,
               ),
-              Padding(
-                padding: const EdgeInsets.all(30.0),
-                child: IconButton(
-                    icon: Icon(
-                      Icons.close,
-                      color: primaryColor,
-                    ),
-                    onPressed: () {
-                      Navigator.popAndPushNamed(context, HomeScreen.id)
-                          .then((value) => setState(() {}));
-                    }),
+              InkWell(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text('POLICE',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      trailing: Icon(
+                        Icons.person_outline,
+                        color: blue,
+                      ),
+                    )),
+                onTap: () {
+                  customLaunch('tel: + 117');
+                },
+              ),
+              Divider(
+                color: primaryColor,
+                thickness: 3,
+              ),
+              InkWell(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text('HOSPITAL',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      trailing: Icon(
+                        FontAwesomeIcons.hospital,
+                        color: red,
+                      ),
+                    )),
+                onTap: () {
+                  customLaunch('tel: 119');
+                },
+              ),
+              Divider(
+                color: primaryColor,
+                thickness: 3,
+              ),
+              InkWell(
+                child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListTile(
+                      title: Text('FIRE BRIGADE',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          )),
+                      trailing: Icon(
+                        FontAwesomeIcons.fire,
+                        color: Colors.yellow,
+                      ),
+                    )),
+                onTap: () {
+                  customLaunch('tel: 118');
+                },
+              ),
+              Divider(
+                color: primaryColor,
+                thickness: 3,
               )
             ],
           ),

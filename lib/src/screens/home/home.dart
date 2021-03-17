@@ -9,6 +9,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:stay_safe/src/helpers/style.dart';
 import 'package:stay_safe/src/screens/about/about.dart';
 import 'package:stay_safe/src/screens/home/report_incident.dart';
+import 'package:stay_safe/src/screens/notification/notifications.dart';
 import 'package:stay_safe/src/screens/rate_app/rate.dart';
 import 'package:stay_safe/src/screens/reports/reports.dart';
 import 'package:stay_safe/src/screens/settings/settings.dart';
@@ -272,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         backgroundColor: primaryColor,
         title: Text(
-          "Crime Line",
+          "Stay Safe",
           textAlign: TextAlign.end,
         ),
         actions: [
@@ -342,6 +343,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             Divider(thickness: 1, color: primaryColor,),
+           
+            DrawerOption(
+              text: "Notifications",
+              iconData: Icons.notifications,
+              onPressed: () {
+               Navigator.pushNamed(context, Notifications.id);
+              },
+            ),
             DrawerOption(
               text: "Reports",
               iconData: Icons.book,

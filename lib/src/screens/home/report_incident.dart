@@ -47,7 +47,7 @@ class _ReportIncidentState extends State<ReportIncident> {
 
   var _image;
   Future getPicture() async {
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
     _image == null
         ? Text('No image selected.')
         : Image.file(
@@ -63,6 +63,8 @@ class _ReportIncidentState extends State<ReportIncident> {
   }
 
   bool showSpinner = false;
+  bool status = false;
+  bool state = false;
 
   var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
@@ -150,9 +152,8 @@ class _ReportIncidentState extends State<ReportIncident> {
         inAsyncCall: showSpinner,
         child: Form(
           key: _formKey,
-          child: Container(
-            margin: EdgeInsets.all(10),
-            color: white,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
             child: ListView(children: [
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                 Row(
@@ -161,8 +162,10 @@ class _ReportIncidentState extends State<ReportIncident> {
                   children: [
                     Text(
                       'Select Incident Type: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
+                    Spacer(),
                     DropdownButton<String>(
                       focusColor: Colors.white,
                       value: _chosenCrime,
@@ -182,7 +185,7 @@ class _ReportIncidentState extends State<ReportIncident> {
                           value: value ?? 'Not made available',
                           child: Text(
                             value,
-                            style: TextStyle(color: black),
+                            style: TextStyle(color: black, fontSize: 17),
                           ),
                         );
                       }).toList(),
@@ -201,7 +204,12 @@ class _ReportIncidentState extends State<ReportIncident> {
                     ),
                   ],
                 ),
-                Divider(),
+
+                SizedBox(
+                  child: Divider(),
+                  height: 40,
+                ),
+
                 TextFormField(
                   decoration: TextFieldDecoration.copyWith(
                       hintText: 'Please explain:', labelText: 'Summary'),
@@ -222,37 +230,41 @@ class _ReportIncidentState extends State<ReportIncident> {
                     return null;
                   },
                 ),
-                Divider(),
-                SizedBox(height: 5),
+                SizedBox(
+                  child: Divider(),
+                  height: 40,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      'Any Injuries or damage? ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      'Any injuries or damages? ',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
+                    Spacer(),
                     DropdownButton<String>(
-                      focusColor: primaryColor,
+                      focusColor: Colors.white,
                       value: _injury,
                       //elevation: 5,
                       style: TextStyle(color: Colors.white),
                       iconEnabledColor: Colors.black,
                       items: <String>[
-                        'Yes',
                         'No',
+                        'Yes',
                         'Maybe',
                       ].map<DropdownMenuItem<String>>((String value) {
                         return DropdownMenuItem<String>(
-                          value: value,
+                          value: value ?? 'Not made available',
                           child: Text(
                             value,
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(color: black, fontSize: 17),
                           ),
                         );
                       }).toList(),
                       hint: Text(
-                        'Any Injuries or damage?',
+                        'Injury',
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 14,
@@ -265,6 +277,10 @@ class _ReportIncidentState extends State<ReportIncident> {
                       },
                     ),
                   ],
+                ),
+                SizedBox(
+                  child: Divider(),
+                  height: 40,
                 ),
                 TextFormField(
                   decoration: TextFieldDecoration.copyWith(
@@ -285,7 +301,10 @@ class _ReportIncidentState extends State<ReportIncident> {
                   //   return null;
                   // },
                 ),
-                Divider(),
+                SizedBox(
+                  child: Divider(),
+                  height: 40,
+                ),
                 Text('Upload photo(s)'),
                 // RaisedButton(child: Text("Pick Image"), onPressed: getPicture),
 
@@ -315,7 +334,7 @@ class _ReportIncidentState extends State<ReportIncident> {
                         ),
                 ),
                 SizedBox(
-                  height: 8.0,
+                  height: 10.0,
                 ),
                 Divider(),
                 WelcomeButton(
