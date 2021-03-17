@@ -66,10 +66,10 @@ class _ReportIncidentState extends State<ReportIncident> {
   bool status = false;
   bool state = false;
   String statusText = 'Active report';
-  
 
   var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   Random _rnd = Random();
+  String id;
 
   String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
       length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
@@ -107,8 +107,9 @@ class _ReportIncidentState extends State<ReportIncident> {
         var first = addresses.first;
         print("${first.featureName} : ${first.addressLine}");
 
-        await Firestore.instance.collection('markers').add({
-          'id': getRandomString(16).toString(),
+        id = getRandomString(16).toString();
+        await Firestore.instance.collection('markers').document(id).setData({
+          'id': id,
           'coords': new GeoPoint(position.latitude, position.longitude),
           // 'reporter': userEmail,
           'incident': _chosenCrime.toString(),
