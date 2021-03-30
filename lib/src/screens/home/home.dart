@@ -301,7 +301,7 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0.0,
         backgroundColor: primaryColor,
         title: Text(
-          "Stay Safe",
+          "SafeLine",
           textAlign: TextAlign.end,
         ),
         actions: [
@@ -392,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //   iconData: Icons.share,
             //   onPressed: () {
             //     Share.share(
-            //         'Stay safe is a mobile application which was developed to fight crime and reduce incident rate in our individual communities. \n Keep your community safe \n Stay safe',
+            //         'SafeLine is a mobile application which was developed to fight crime and reduce incident rate in our individual communities. \n Keep your community safe \n SafeLine',
             //         subject: 'Download the App!');
             //     // share();
             //   },

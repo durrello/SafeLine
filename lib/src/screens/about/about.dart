@@ -28,7 +28,7 @@ class AboutScreen extends StatelessWidget {
               Expanded(
                 child: Center(
                   child: Text(
-                    'Stay Safe is a mobile application which was developed to fight crime in our local individual communities. \Stay Safe, a free downloadable app, provides 24-hour emergency assistance in an attempt to lower the country\'s alarming crime statistics.',
+                    'SafeLine is a mobile application which was developed to fight crime in our local individual communities. \SafeLine, a free downloadable app, provides 24-hour emergency assistance in an attempt to lower the country\'s alarming crime statistics.',
                     textAlign: TextAlign.justify,
                     style: TextStyle(fontSize: 16),
                   ),

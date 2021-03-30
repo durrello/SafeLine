@@ -12,6 +12,7 @@ class SplashScreen extends StatefulWidget {
 
 class Splash extends State<SplashScreen> {
   // @override
+
   // Widget build(BuildContext context) {
   //   return new Scaffold(
   //     body: new Center(
@@ -41,7 +42,7 @@ class Splash extends State<SplashScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset('assets/images/logoRed.png'),
-              // Text('Stay Safe')
+              // Text('SafeLine')
             ],
           ),
         ),

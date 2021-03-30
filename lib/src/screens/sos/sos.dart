@@ -68,7 +68,7 @@ class _SOSState extends State<SOS> {
                       ),
                     )),
                 onTap: () {
-                  customLaunch('tel: + 117');
+                  customLaunch('tel: 117');
                 },
               ),
               Divider(
