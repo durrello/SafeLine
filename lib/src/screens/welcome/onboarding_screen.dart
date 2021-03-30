@@ -12,23 +12,24 @@ class OnboardingScreen extends StatefulWidget {
   _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> with AfterLayoutMixin<OnboardingScreen> {
-   Future checkFirstSeen() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool _seen = (prefs.getBool('seen') ?? false);
+class _OnboardingScreenState extends State<OnboardingScreen> {
+// with AfterLayoutMixin<OnboardingScreen> {
+  //  Future checkFirstSeen() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool _seen = (prefs.getBool('seen') ?? false);
 
-    if (_seen) {
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new LoginScreen()));
-    } else {
-      await prefs.setBool('seen', true);
-      Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new WelcomeScreen()));
-    }
-  }
+  //   if (_seen) {
+  //     Navigator.of(context).pushReplacement(
+  //         new MaterialPageRoute(builder: (context) => new LoginScreen()));
+  //   } else {
+  //     await prefs.setBool('seen', true);
+  //     Navigator.of(context).pushReplacement(
+  //         new MaterialPageRoute(builder: (context) => new WelcomeScreen()));
+  //   }
+  // }
 
-  @override
-  void afterFirstLayout(BuildContext context) => checkFirstSeen();
+  // @override
+  // void afterFirstLayout(BuildContext context) => checkFirstSeen();
   
   int currentIndex = 0;
   @override
